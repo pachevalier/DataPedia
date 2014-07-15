@@ -1,4 +1,10 @@
 ## Idées
+* Dashboard chiffres clés : Nombre d'articles
+* DataPedia/prenoms : Appli prénom 
+    * Fréquence des prénoms
+    * Evolution au cours du temps et en fonction des pays/zones géographiques
+    * Degré de féminité/masculinité du prénom. Possibilité de filtre
+* 
 * Maintenance : TreeMap ou matrice colorée avec les chiffres clés.
 * Apparier les données communales avec les données Wikidata.
 * Obtenir la liste des modalités d'une propriété WikiData à partir de la liste des articles liés
