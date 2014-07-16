@@ -15,7 +15,7 @@
      * Film
      * …
 * Compter le nombre d'éléments par portail. Afficher le résultats sous forme de TreeMap
-* 
+* Naviguer dans l'historique d'une page wikipédia avec un slider et ou une calendar heatmap.
 
 ## Documentation
 * [Manuel](https://www.wikidata.org/w/api.php)
