@@ -16,6 +16,8 @@
      * …
 * Compter le nombre d'éléments par portail. Afficher le résultats sous forme de TreeMap
 * Naviguer dans l'historique d'une page wikipédia avec un slider et ou une calendar heatmap.
+* Mini appli : qui est né le même jour que toi ? Que s'est-il passé le jour de ton anniversaire ? 
+* Visualiser une propriété/ Faire l'équivalent de Reasonator pour une propriété
 
 ## Documentation
 * [Manuel](https://www.wikidata.org/w/api.php)
