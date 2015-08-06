@@ -1,0 +1,50 @@
+---
+title: "sparql_wikidata"
+output: html_document
+---
+
+
+* [WDQS Beta](http://wdqs-beta.wmflabs.org/)
+* [WDQ2SPARQL](http://tools.wmflabs.org/wdq2sparql/w2s.php)
+* [Tuto de Colin Maudry](http://colin.maudry.fr/curl-examples-to-query-wikidata/)
+
+
+
+## Choix des outils
+
+* on oublie la librairie SPARQL
+* on utilise les librairies httr, readr et jsonlite
+
+## Exemples
+
+### Liste et type des propriétés
+
+Requête proposée par Colin Maudry : 
+
+    $ curl http://wdqs-beta.wmflabs.org/bigdata/namespace/wdq/sparql?query=select%20distinct%20%3Ftype%20where%20%7B%0A%3Fthing%20a%20%3Ftype%0A%7D%0Alimit%2020 -H 'Accept: text/csv'
+
+ou bien 
+
+    $ curl -G https://wdqs-beta.wmflabs.org/bigdata/namespace/wdq/sparql --data-urlencode query='select distinct ?type where {?thing a ?type}limit 20'
+    
+En R, on peut utiliser la fonction GET : 
+
+```{r}
+q <- GET(url = "http://wdqs-beta.wmflabs.org/bigdata/namespace/wdq/sparql?query=select%20distinct%20%3Ftype%20where%20%7B%0A%3Fthing%20a%20%3Ftype%0A%7D%0Alimit%2020", add_headers(Accept="text/csv"))
+q %>% content(., as = "text") %>% read_csv() %>% View()
+```
+
+### Les présidents des Etats Unis et leurs épouses
+
+    $ curl -G https://wdqs-beta.wmflabs.org/bigdata/namespace/wdq/sparql --data-urlencode query="PREFIX wd: <http://www.wikidata.org/entity/>  PREFIX wdt: <http://www.wikidata.org/prop/direct/> PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> PREFIX p: <http://www.wikidata.org/prop/>  PREFIX v: <http://www.wikidata.org/prop/statement/>  SELECT ?p ?w ?l ?wl WHERE { wd:Q30 p:P6/v:P6 ?p . ?p wdt:P26 ?w . OPTIONAL  { ?p rdfs:label ?l FILTER (LANG(?l) = 'en') . } OPTIONAL {      ?w rdfs:label ?wl FILTER (LANG(?wl) = 'en'). } }" -H 'Accept: text/csv' > us_presidents.csv
+
+Ensuite, on peut importer le csv en R : 
+
+```{r}
+df <- read_csv("data/us_presidents.csv")
+```
+
+On peut aussi lancer la commande depuis R : 
+
+    > system("curl -G https://wdqs-beta.wmflabs.org/bigdata/namespace/wdq/sparql --data-urlencode query=\"PREFIX wd: <http://www.wikidata.org/entity/>  PREFIX wdt: <http://www.wikidata.org/prop/direct/> PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> PREFIX p: <http://www.wikidata.org/prop/>  PREFIX v: <http://www.wikidata.org/prop/statement/>  SELECT ?p ?w ?l ?wl WHERE { wd:Q30 p:P6/v:P6 ?p . ?p wdt:P26 ?w . OPTIONAL { ?p rdfs:label ?l FILTER (LANG(?l) = 'en') . } OPTIONAL { ?w rdfs:label ?wl FILTER (LANG(?wl) = 'en'). }}\" -H 'Accept: text/csv' > data/file.csv") 
+    > read_csv("data/file.csv") %>% View()
